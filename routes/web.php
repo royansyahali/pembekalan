@@ -12,7 +12,30 @@
 */
 
 Route::get('/', function () {
-    return view('pages.dashboard');
-});
+    $data['title'] = "Login ";
+    return view('auth.login', $data);
+})->middleware('guest');
 
-Route::resource('user','UserController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('car', 'CarController')->middleware('auth');
+
+Route::resource('brand', 'BrandController')->middleware('auth');
+
+Route::resource('employee', 'EmployeeController')->middleware('auth');
+
+Route::resource('client', 'ClientController')->middleware('auth');
+
+Route::get('booking', ['as' => 'booking.index', 'uses' => 'BookingController@index' ])->middleware('auth');
+
+Route::get('list-member', 'BookingController@listMember' )->middleware('auth');
+
+Route::post('create-client', ['as' => 'create-client', 'uses' => 'BookingController@createClient' ])->middleware('auth');
+
+Route::post('booking/details', ['as' => 'booking.calculate', 'uses' => 'BookingController@calculate'])->middleware('auth');
+
+Route::post('booking/process', ['as' => 'booking.process', 'uses' => 'BookingController@process'])->middleware('auth');
+
+Route::get('payment', ['as' => 'payment.index', 'uses' => 'PaymentController@index' ])->middleware('auth');
