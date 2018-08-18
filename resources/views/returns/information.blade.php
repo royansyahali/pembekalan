@@ -2,21 +2,18 @@
 
 @section('content')
 
-<section class="content col-md-12">
-
-    @if ($errors->any())
+<div class="content col-md-12">
+	@if ($errors->any())
         @foreach ($errors->all() as $error)
             <p class="alert alert-danger">{{ $error }}</p>
         @endforeach
     @endif
-	
 	<div class="card card-secondary card-outline">
         <div class="card-header">
-            <h3 class="card-title"> Form {{$title }} </h3>
+        	<h3 class="card-title">Rent Information</h3>
         </div>
-        <form action="{{ route('booking.process') }}" method="post">
+       <form action="{{ route('returns.process') }}" method="post">
             {{ csrf_field() }}
-
             <div class="card-body">
             	<table class="table">
             		<thead>
@@ -52,10 +49,10 @@
                         <input type="hidden" name="duration" value="{{ $data['duration'] }}" required>
         			</tr>
         			<tr>
-        				<th>Return Date</th>
+        				<th>Return Date Supposed</th>
         				<td> : </td>
-        				<td>{{ $return_date }}</td>
-                        <input type="hidden" name="return_date_supposed" value="{{ $return_date }}" required>
+        				<td>{{ $data['return_date_supposed'] }}</td>
+                        <input type="hidden" name="return_date_supposed" value="{{ $data['return_date_supposed'] }}" required>
         			</tr>
         			<tr>
         				<th>Price a day</th>
@@ -65,28 +62,56 @@
         			<tr>
         				<th>Total Price</th>
         				<td> : </td>
-        				<td>Rp. {{ number_format($total_price) }}</td>
-                        <input type="hidden" name="price" value="{{ $total_price }}" required>
+        				<td>Rp. {{ number_format($data['price']) }}</td>
+                        <input type="hidden" name="price" value="{{ $data['price'] }}" required>
         			</tr>
         			<tr>
-        				<th>Dp Minimum</th>
+        				<th>Fine</th>
         				<td> : </td>
-        				<td>Rp. {{ number_format($dp) }}</td>
-                        <input type="hidden" name="employees_id" value="{{ Auth::user()->id }}" required>
+        				@if($fine != null)
+        				<td style="color:red">Rp. {{ number_format($fine) }} (Late {{$late}} Days)</td>
+        				@else 
+        				<td>0</td>
+        				@endif
+                        <input type="hidden" name="fine" value="{{ $fine }}" required>
+        			</tr>
+        			<tr>
+        				<th>DP</th>
+        				<td> : </td>
+        				<td>Rp. {{ number_format($payment->amount) }}</td>
+        			</tr>
+        			<tr>
+        				<th colspan="2">TOTAL</th>
+        				<input type="hidden" name="total" id="total" value="{{ $total }}" >
+        				<td>Rp. {{ number_format($total) }}</td>
         			</tr>
                     <tr>
-                        <td colspan="3"><button href="#" data-toggle="modal" data-target="#paymentModal" type="button"> Book Now </button></td>
+                        <td colspan="3"><button href="#" data-toggle="modal" data-target="#paymentModal" type="button"> Process </button></td>
                     </tr>
             	</table>
             </div>
             <!-- payment MODALS  -->
-            @include('booking.form-payment')
+            @include('returns.form-payment')
         </form>
-    </div>
+    </div>	
+</div>
 
-    
-
-</section>
-
-<!-- Modal -->
 @endsection
+
+@push('scripts')
+<script>
+	$(document).ready(function(e){
+        $('#amount').keyup(function(){
+            var amount = $(this).val();
+            var total = $('#total').val();
+            if(amount != ''){
+                $.ajax({
+                    success:function(data){
+                        $('#change').html(amount - total);
+                    }
+                });
+            }
+        });
+    });
+</script>
+@endpush

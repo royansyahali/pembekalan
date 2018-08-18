@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Client;
 use App\Car;
 use App\Booking;
-use App\Payment;
+use App\Returns;
 
 class BookingController extends Controller
 {
@@ -92,7 +92,7 @@ class BookingController extends Controller
             'client_id' => 'required|integer',
             'car_id' => 'required|integer',
             'duration' => 'required|integer',
-            'return_date' => 'required',
+            'return_date_supposed' => 'required',
             'price' => 'required|integer',
             'employees_id' => 'required',
             'type' => 'required',
@@ -106,7 +106,7 @@ class BookingController extends Controller
             'booking_code' => $request->booking_code,
             'order_date' => $request->order_date,
             'duration' => $request->duration,
-            'return_date' => $request->return_date,
+            'return_date_supposed' => $request->return_date_supposed,
             'price' => $request->price,
             'status' => 'process',
             'employees_id' => $request->employees_id,
@@ -114,8 +114,8 @@ class BookingController extends Controller
             'client_id' => $request->client_id,
         ]);
 
-        //insert to payments
-        $insert_payment = Payment::create([
+        //insert to payment
+        $insert_payment = Returns::create([
             'type' => $request->type,
             'amount' => $request->amount,
             'date' => date('Y-m-d'),

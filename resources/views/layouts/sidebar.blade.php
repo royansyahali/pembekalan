@@ -78,9 +78,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href=" {{ route('payment.index') }} " class="nav-link {{($menu==6 ? 'active' : '')}}">
+                                <a href=" {{ route('returns.index') }} " class="nav-link {{($menu==6 ? 'active' : '')}}">
                                     <i class="fa fa-dollar nav-icon"></i>
-                                    <p>Payments</p>
+                                    <p>Returns</p>
                                 </a>
                             </li>
                         </ul>

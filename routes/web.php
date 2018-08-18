@@ -38,4 +38,8 @@ Route::post('booking/details', ['as' => 'booking.calculate', 'uses' => 'BookingC
 
 Route::post('booking/process', ['as' => 'booking.process', 'uses' => 'BookingController@process'])->middleware('auth');
 
-Route::get('payment', ['as' => 'payment.index', 'uses' => 'PaymentController@index' ])->middleware('auth');
+Route::get('returns', ['as' => 'returns.index', 'uses' => 'ReturnController@index' ])->middleware('auth');
+
+Route::get('returns/information', ['as' => 'returns.information', 'uses' => 'ReturnController@information'])->middleware('auth');
+
+Route::post('returns/process', ['as' => 'returns.process', 'uses' => 'ReturnController@process'])->middleware('auth');

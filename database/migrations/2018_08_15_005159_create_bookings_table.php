@@ -18,7 +18,8 @@ class CreateBookingsTable extends Migration
             $table->string('booking_code');
             $table->date('order_date');
             $table->integer('duration');
-            $table->date('return_date');
+            $table->date('return_date_supposed');
+            $table->date('return_date')->nullable();
             $table->integer('price');
             $table->enum('status', ['paid', 'process']);
             $table->string('fine')->nullable();

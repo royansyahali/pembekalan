@@ -11,7 +11,6 @@
     @endif
 
 <!-- Modal -->
-
 @include('booking.form-client')
 
     <div class="card card-secondary card-outline">
@@ -28,8 +27,8 @@
                             <input type="text" class="form-control" required name="booking_code" value=" B-{{ rand() }}" readonly>
                         </div>
                         <div class="form-group">
-                            <p>Client Name or </p>
-                            <input type="text" class="form-control" required id="client" value="{{ old('client_id') }}" placeholder="type">
+                            <p>Client Name or Client ID</p>
+                            <input type="text" class="form-control" required id="client" value="{{ old('client_id') }}" placeholder="type something">
                             <input type="hidden" name="client_id" id="client_id" value="{{ old('client_id') }}">
                             <div id="client-list"></div>
                         </div>

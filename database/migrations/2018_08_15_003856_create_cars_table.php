@@ -21,6 +21,7 @@ class CreateCarsTable extends Migration
             $table->integer('price');
             $table->enum('type', ['manual', 'matic']);
             $table->integer('brand_id');
+            $table->enum('available', ['1', '0'])->default('1');
             $table->timestamps();
             $table->softDeletes();
         });
