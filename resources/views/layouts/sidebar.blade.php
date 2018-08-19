@@ -84,7 +84,24 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                </li>
+                <li class="nav-item has-treeview menu-open">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fa fa-circle-o"></i>
+                            <p>
+                            REPORT
+                            <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href=" {{ url('reports/transaction') }} " class="nav-link {{($menu==7 ? 'active' : '')}}">
+                                    <i class="fa fa-book nav-icon"></i>
+                                    <p>Transaction</p>
+                                </a>
+                            </li>
+                        </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

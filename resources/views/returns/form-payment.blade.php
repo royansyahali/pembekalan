@@ -27,7 +27,7 @@
                         <table border="0">
                             <tr>
                                 <td>Change : </td>
-                                <td><div id="change"> 1000 </div></td>
+                                <td><div id="change"></div></td>
                             </tr>
                         </table>
 

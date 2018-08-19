@@ -43,3 +43,6 @@ Route::get('returns', ['as' => 'returns.index', 'uses' => 'ReturnController@inde
 Route::get('returns/information', ['as' => 'returns.information', 'uses' => 'ReturnController@information'])->middleware('auth');
 
 Route::post('returns/process', ['as' => 'returns.process', 'uses' => 'ReturnController@process'])->middleware('auth');
+
+Route::get('reports/transaction', 'ReportController@index')->middleware('auth');
+
