@@ -30,7 +30,7 @@ class ReturnController extends Controller
 
     	$booking_table = Booking::where('booking_code', $booking_code)->first();
     	//jika booking code tidak ditemukan
-    	if(count($booking_table) == 0){
+    	if($booking_table->count() == 0){
     		$request->session()->flash('warning', 'Data rental not found!');
         	return redirect()->route('returns.index');
     	} 

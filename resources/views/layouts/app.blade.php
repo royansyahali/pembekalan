@@ -83,10 +83,8 @@
     <!-- DataTables -->
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('plugins/datatables/dataTables.bootstrap4.js') }}"></script>
-
     <!-- cleave js -->
     <script src="{{ asset('cleave-js/dist/cleave.min.js') }}"></script>
-
     <!-- CHECKBOX -->
     <script src="{{ asset('plugins/iCheck/icheck.min.js') }}"></script>
 
