@@ -13,8 +13,8 @@
                         <p>Paid Type</p>
                         <select name="type" class="form-control">
                             <option value=""> - Select One - </option>
-                            <option value="dp">DP</option>
-                            <option value="repayment">Repayment</option>
+                            <option value="dp">Dp</option>
+                            <option value="repayment">Lunas</option>
                         </select>
                     </div>
 
@@ -23,9 +23,10 @@
                         <input type="number" name="amount" class="form-control" value="{{ old('amount') }}">
                     </div>
 
-                    <input type="submit" value="PROCESS">
+                    <button type="submit" class="btn btn-primary" value="PROCESS">Submit</button>
+
                 </div>
-                
+
             </div>
         </div>
     </div>

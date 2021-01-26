@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <p>Paid Type</p>
                         <select name="type" class="form-control" readonly>
-                            <option value="repayment">Repayment</option>
+                            <option value="repayment">Lunas</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -33,9 +33,9 @@
 
                     </div>
 
-                    <input type="submit" value="PROCESS">
+                    <button type="submit" class="btn btn-primary" value="PROCESS">Submit</button>
                 </div>
-                
+
             </div>
         </div>
     </div>

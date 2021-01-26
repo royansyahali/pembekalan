@@ -16,7 +16,14 @@ Route::get('/', function () {
     return view('auth.login', $data);
 })->middleware('guest');
 
-Auth::routes();
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('password/email','Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/reset','Auth\ForgotPasswordController@reset');
+Route::get('password/reset/{token}','Auth\ForgotPasswordController@showResetForm');
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -30,7 +37,7 @@ Route::resource('client', 'ClientController')->middleware('auth');
 
 Route::get('booking', ['as' => 'booking.index', 'uses' => 'BookingController@index' ])->middleware('auth');
 
-Route::get('list-member', 'BookingController@listMember' )->middleware('auth');
+// Route::get('list-member', 'BookingController@listMember' )->middleware('auth');
 
 Route::post('create-client', ['as' => 'create-client', 'uses' => 'BookingController@createClient' ])->middleware('auth');
 
@@ -45,4 +52,10 @@ Route::get('returns/information', ['as' => 'returns.information', 'uses' => 'Ret
 Route::post('returns/process', ['as' => 'returns.process', 'uses' => 'ReturnController@process'])->middleware('auth');
 
 Route::get('reports/transaction', 'ReportController@index')->middleware('auth');
+
+Route::get("download-pdf/{start}/{end}/{type}","HomeController@downloadPDF")->name("pdf");
+
+Route::get("cetaknota/{kode}","ReturnController@nota")->name("nota");
+
+Route::get('charts', 'HomeController@chart')->name('chart.index');
 

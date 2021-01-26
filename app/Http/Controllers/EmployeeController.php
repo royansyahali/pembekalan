@@ -49,12 +49,16 @@ class EmployeeController extends Controller
             'name' => 'required|string|max:150',
             'email' => 'required|string|max:150|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role' => 'required',
         ]);
+
         if($validate) {
             $input = [];
             $input['name'] = $request->name;
             $input['email'] = $request->email;
             $input['password'] = bcrypt($request->password);
+            $input['role'] = $request->role;
+            // dd($input['role']);
             $insert = Employee::create($input);
             if($insert) {
                 $request->session()->flash('success', 'Add employee success!');
@@ -64,9 +68,9 @@ class EmployeeController extends Controller
                 return redirect()->route('employee.index');
             }
         }
-        
-            
-      
+
+
+
     }
 
 
@@ -95,14 +99,14 @@ class EmployeeController extends Controller
     {
         $validate = $request->validate([
             'name' => 'required|string|max:150',
-            
+
         ]);
         $employee = Employee::find($id);
 
         if($request->email == $employee->email){
             $update = Employee::find($id)->update([
-                'name' =>  $request['name'], 
-            ]); 
+                'name' =>  $request['name'],
+            ]);
             $request->session()->flash('success', 'Edit user success!');
             return redirect()->route('employee.index');
         } else {
@@ -126,5 +130,8 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         //
+
+        Employee::destroy($id);
+        return redirect()->route('employee.index');
     }
 }

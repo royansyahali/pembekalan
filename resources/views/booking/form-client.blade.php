@@ -39,7 +39,8 @@
                             <input type="text" class="form-control" name="address" value="{{ old('address') }}" >
                         </div>
                     </div>
-                    <input type="submit">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
                 </div>
             </form>
         </div>

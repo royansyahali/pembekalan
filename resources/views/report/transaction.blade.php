@@ -5,12 +5,14 @@
 <section class="content">
 	<div class="card card-secondary card-outline">
 		<div class="card-header">
+            <h3 class="card-title"><a href="{{ route('pdf', ['start' => $data['start_date'],"end" => $data['end_date'],"type" => $data['type']])}}" class="btn btn-primary">PDF </a> </h3>
 			Order Transaction period {{ $data['start_date'] }} until {{ $data['end_date'] }} and status ' {{ $data['type'] }} '
-		</div>
+        </div>
 		<div class="card-body">
 			<table class="table table-sm" id="myTable">
 				<thead>
 					<tr>
+                        <th>No</th>
 						<th>Booking Code</th>
 						<th>Order Date</th>
 						<th>Clients Name</th>
@@ -20,13 +22,13 @@
 						<th>Return Date</th>
 						<th>Total Price</th>
 						<th>Order Status</th>
-						<th>Order Fine</th>
+                        <th>Order Fine</th>
 					</tr>
 				</thead>
 				<tbody>
 					@foreach($bookings as $row)
 					<tr>
-
+                        <td>{{ $no++ }}</td>
 						<td>{{ $row['booking_code'] }}</td>
 						<td>{{ $row['order_date'] }}</td>
 						<td>{{ $row['name'] }}</td>

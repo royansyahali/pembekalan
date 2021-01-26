@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Booking;
 use Illuminate\Support\Facades\DB;
+use PDF;
+
 
 class ReportController extends Controller
 {
@@ -38,13 +40,13 @@ class ReportController extends Controller
     				break;
     		}
     		if($request->type == 'all'){
-    			
+
     		} else if($request->type == 'process'){
 
-    		}
-    		
+            }
+            // dd($data)
     		return view('report/transaction', $data);
     	}
-    	
+
     }
 }

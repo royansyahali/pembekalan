@@ -5,11 +5,11 @@
 <section class="content col-md-6">
 
     @if ($errors->any())
-        
+
         @foreach ($errors->all() as $error)
             <p class="alert alert-danger">{{ $error }}</p>
         @endforeach
-           
+
     @endif
 
     <div class="card card-secondary card-outline">
@@ -37,13 +37,22 @@
                             <p>Re-type Password</p>
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                         </div>
+                        <div class="form-group">
+                            <p>Role</p>
+                            <select name="role" class="form-control">
+                                <option value=""> - Select One - </option>
+                                <option value="bendahara" {{ (old("role") == 'bendahara' ? "selected":"") }}>Bendahara</option>
+                                <option value="kasir" {{ (old("role") == 'kasir' ? "selected":"") }}>Kasir</option>
+                            </select>
+                        </div>
                     </div>
-            
+
                 </div>
-                <input type="submit">
+                <button type="submit" class="btn btn-primary">Submit</button>
+
             </form>
         </div>
     </div>
-</section> 
+</section>
 
 @endsection

@@ -11,4 +11,9 @@ class Car extends Model
     protected $primaryKey = 'car_id';
     use SoftDeletes;
     protected $dates = ['delete_at'];
+
+    public function bookings()
+    {
+        return $this->hasMany('App\Booking');
+    }
 }

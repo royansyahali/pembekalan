@@ -9,7 +9,7 @@
             <p class="alert alert-danger">{{ $error }}</p>
         @endforeach
     @endif
-	
+
 	<div class="card card-secondary card-outline">
         <div class="card-header">
             <h3 class="card-title"> Form {{$title }} </h3>
@@ -75,7 +75,7 @@
                         <input type="hidden" name="employees_id" value="{{ Auth::user()->id }}" required>
         			</tr>
                     <tr>
-                        <td colspan="3"><button href="#" data-toggle="modal" data-target="#paymentModal" type="button"> Book Now </button></td>
+                        <td colspan="3"><button href="#" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" type="button"> Book Now </button></td>
                     </tr>
             	</table>
             </div>
@@ -84,7 +84,7 @@
         </form>
     </div>
 
-    
+
 
 </section>
 

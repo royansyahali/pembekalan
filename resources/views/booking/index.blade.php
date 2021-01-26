@@ -28,9 +28,12 @@
                         </div>
                         <div class="form-group">
                             <p>Client Name or Client ID</p>
-                            <input type="text" class="form-control" required id="client" value="{{ old('client_id') }}" placeholder="type something">
-                            <input type="hidden" name="client_id" id="client_id" value="{{ old('client_id') }}">
-                            <div id="client-list"></div>
+                            <select name="client_id" class="form-control">
+                                <option value=""> - Select One - </option>
+                                @foreach($client as $client_id)
+                                    <option value="{{ $client_id->client_id }}" {{($client_id->client_id == old('client_id') ? 'selected' : '')}} >{{ $client_id->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <p>Order Date</p>
@@ -46,7 +49,7 @@
                                     Day
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="form-group">
                             <p>Car </p>
@@ -56,12 +59,12 @@
                                     <option value="{{ $car->car_id }}" {{($car->car_id == old('car_id') ? 'selected' : '')}} >{{ $car->car_name }} - Rp. {{ number_format($car->price)." a day" }}</option>
                                 @endforeach
                             </select>
-                           
+
                         </div>
                     </div>
-                   
+
                 </div>
-                <input type="submit" value="Process">
+                <button type="submit" class="btn btn-primary" value="Process">Submit</button>
             </form>
         </div>
     </div>
@@ -70,7 +73,7 @@
 
 @endsection
 
-@push('scripts')
+{{-- @push('scripts')
 <script>
     $(document).ready(function(e){
         $('#client').keyup(function(){
@@ -97,15 +100,14 @@
     });
     $(document).on('click', '.li-client-null', function(){
         $('#client').val("");
-       
+
         $('#client_id').val(newClient[0]);
         $('#client-list').fadeOut();
     });
-
     $("body").mouseup(function(e){
         if($(e.target).closest('#client').length==0){
             $('#client-list').stop().fadeOut();
         }
     });
 </script>
-@endpush
+@endpush --}}

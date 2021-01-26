@@ -32,7 +32,7 @@
                             <input type="text" class="form-control" required name="license_plat" value="{{ $car->license_plat }}">
                         </div>
                     </div>
-            
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <p>Price</p>
@@ -57,10 +57,10 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit">
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
-</section> 
+</section>
 
 @endsection

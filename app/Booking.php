@@ -12,4 +12,8 @@ class Booking extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+    public function car()
+    {
+        return $this->belongsTo('App\Car');
+    }
 }

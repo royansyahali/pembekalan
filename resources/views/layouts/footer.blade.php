@@ -1,7 +1,7 @@
 <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
-          <b>Eat - Sleep - Code</b> | REPEAT
+          <b>Eat - Sleep - Code</b>
         </div>
-        <strong>Copyright &copy; 2018 <a href="http://adminlte.io">Refo Junior</a>.</strong> All rights
+        <strong>Copyright &copy; 2020 Royan Syah Ali.</strong> All rights
         reserved.
 </footer>

@@ -2,9 +2,9 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {{-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -37,7 +37,7 @@
             @include('layouts.navbar')
             @include('layouts.sidebar')
             <div class="content-wrapper">
-                
+
                 <section class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
@@ -55,12 +55,12 @@
 
             @include('layouts.footer')
         @endguest
-    
+
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    
+
     <!-- jQuery -->
     <script src=" {{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <!-- Datepicker -->
@@ -92,10 +92,10 @@
     $(function () {
         $("#myTable").DataTable();
     });
-   
+
     </script>
 
     @stack('scripts')
-          
+
 </body>
 </html>

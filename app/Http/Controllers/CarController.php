@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Booking;
 use Illuminate\Http\Request;
 use App\Car;
 use App\Brand;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Validation\Rule;
 
 class CarController extends Controller
 {
@@ -19,13 +22,16 @@ class CarController extends Controller
     {
         $data['title'] = "Cars";
         $data['menu'] = 1;
+
         $cars = DB::table('cars')
                         ->join('brands', 'cars.brand_id', '=', 'brands.brand_id')
-                        ->get()->toArray();
-        //ngereturn array dari query builder laravel
+                        ->join('bookings', 'cars.car_id', '=', 'bookings.car_id')
+                        ->where('available',"1")
+                        ->get();
+
         $data['cars'] = json_decode(json_encode($cars), true);
-        //catatan : besok2 pake notasi objek aja kalo nampilin data dari eloqeunt or dari db
         $data['no'] = 1;
+        $data["jumlah"] = count($cars);
         return view('car.index', $data);
     }
 
@@ -39,7 +45,7 @@ class CarController extends Controller
         $data['title'] = "Add New Cars";
         $data['menu'] = 1;
         $data['brands'] = Brand::all();
-        
+
         return view('car.create', $data);
     }
 
@@ -51,10 +57,11 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
+
         $validate = $request->validate([
             'car_name' => 'required',
             'year' => 'required|numeric',
-            'license_plat' => 'required|max:10',
+            'license_plat' => 'required|max:10|unique:cars,license_plat',
             'price' => 'required|numeric',
             'type' => 'required',
             'brand_id' => 'required'
@@ -88,7 +95,7 @@ class CarController extends Controller
         $data['menu'] = 1;
         $data['car'] = Car::find($id);
         $data['brands'] = Brand::all();
-        
+
         return view('car.edit', $data);
     }
 
@@ -101,15 +108,18 @@ class CarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate = $request->validate([
+        $rules = [
             'car_name' => 'required',
             'year' => 'required|numeric',
-            'license_plat' => 'required|max:10',
+            'license_plat' => 'required|max:10|'.Rule::unique('cars')->ignore($id,"car_id"),
             'price' => 'required|numeric',
             'type' => 'required',
             'brand_id' => 'required'
-        ]);
-
+        ];
+        $validator = FacadesValidator::make($request->all(),$rules);
+        if($validator->fails()){
+            return redirect()->back();
+        }
         $update = Car::find($id)->update($request->toArray());
         return redirect()->route('car.index');
 

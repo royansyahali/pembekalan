@@ -5,11 +5,11 @@
 <section class="content col-md-12">
 
     @if ($errors->any())
-        
+
         @foreach ($errors->all() as $error)
             <p class="alert alert-danger">{{ $error }}</p>
         @endforeach
-           
+
     @endif
 
     <div class="card card-secondary card-outline">
@@ -34,7 +34,7 @@
                             <input type="text" class="form-control" required name="license_plat" value="{{ old('license_plat') }}">
                         </div>
                     </div>
-            
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <p>Price</p>
@@ -44,8 +44,8 @@
                             <p>Type</p>
                             <select name="type" class="form-control">
                                 <option>- Select one -</option>
-                                <option value="manual" {{ (old("type") == 'manual' ? "selected":"") }}>Manual</option>
-                                <option value="matic" {{ (old("type") == 'matic' ? "selected":"") }}>Matic</option>
+                                <option value="Manual" {{ (old("type") == 'manual' ? "selected":"") }}>Manual</option>
+                                <option value="Matic" {{ (old("type") == 'matic' ? "selected":"") }}>Matic</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -56,14 +56,14 @@
                                     <option value="{{ $list['brand_id'] }}"> {{$list['brand_name']}} </option>
                                 @endforeach
                             </select>
-                            
+
                         </div>
                     </div>
                 </div>
-                <input type="submit">
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
-</section> 
+</section>
 
 @endsection

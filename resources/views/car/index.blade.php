@@ -6,6 +6,7 @@
     <div class="card card-secondary card-outline">
         <div class="card-header">
             <h3 class="card-title"><a href="{{ route('car.create') }}" class="btn btn-primary">Add New </a> </h3>
+            <p>Jumlah Tersedia: {{$jumlah}}</p>
         </div>
         <div class="card-body">
             <table class="table table-sm" id="myTable">
@@ -29,9 +30,9 @@
                         <td>{{ $row['year'] }}</td>
                         <td>{{ $row['license_plat'] }}</td>
                         <td>{{ number_format($row['price']) }}</td>
-                        <td>{{ $row['type'] }}</td>
+                        <td>{{ ucfirst($row['type']) }}</td>
                         <td>{{ $row['brand_name'] }}</td>
-                        <td> 
+                        <td>
                             <a href="{{ route('car.edit',  ['car_id' => $row["car_id"]]) }}" class="btn btn-sm btn-warning"><i class="fa fa-cog"></i></a>
                             <a data-id="{{$row['car_id']}}" class="btn btn-sm btn-danger delete-btn"><i class="fa fa-trash"></i></a>
                         </td>
@@ -42,7 +43,7 @@
             </table>
         </div>
     </div>
-</section>                  
+</section>
 
 @endsection
 

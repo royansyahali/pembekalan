@@ -15,13 +15,33 @@ class BookingController extends Controller
         $data['menu'] = 5;
         $data['title'] = 'Booking';
         $data['cars'] = Car::where('available', "1")->get();
+        $data['memb'] = DB::table('clients')
+        ->join('bookings', 'clients.client_id', '=', 'bookings.client_id')
+        ->where("status","process")->get();
+        $client = Client::all();
+        $data["client"] = [];
+        $id = [];
+
+
+        $carvalid = [];
+        if(count($data['memb']) == 0){
+            $data["client"] = $client;
+        }else {
+            foreach ($data["memb"] as $key => $value) {
+                array_push($id,$value->client_id);
+            }
+            $data['client']= DB::table('clients')
+                    ->whereNotIn('client_id', $id)
+                    ->get();
+        }
+
         return view('booking.index', $data);
     }
 
     public function listMember(){
         $get = $_GET['data'];
         $data = DB::table('clients')->where('name', 'like', "%$get%")->get();
-    
+
 		$output = "<ul class='ul-client'>";
 		if(count($data) != 0){
 			foreach($data as $row){
@@ -51,7 +71,7 @@ class BookingController extends Controller
     }
 
     public function calculate(Request $request){
-        //validate 
+        //validate
         $validate = $request->validate([
             'booking_code' => 'required|unique:bookings',
             'order_date' => 'required',
@@ -70,7 +90,7 @@ class BookingController extends Controller
         //get dp minimum (30% from the price total)
         $dp = ($total_price * 10) / 100;
 
-        //get input 
+        //get input
         $data = $request->toArray();
 
         //get client
@@ -78,13 +98,24 @@ class BookingController extends Controller
 
         $title = 'Detail Order';
         $menu = '5';
-        
+
         return view('booking.details', compact('return_date', 'data', 'total_price', 'car', 'dp', 'title', 'menu', 'client'));
-        
+
     }
 
     public function process(Request $request){
-        //validate 
+        //validate
+        $dp = ($request->price * 10) / 100;
+        if($request->type == "dp" && $request->amount < $dp){
+            $request->amount = $dp;
+            $request->session()->flash('danger', "The amount must be at least $request->amount.");
+            return redirect()->route('booking.index');
+        }
+        elseif($request->type == "repayment" && $request->amount < $request->price){
+            $request->amount = $request->price;
+            $request->session()->flash('danger', "The amount must be at least $request->amount.");
+            return redirect()->route('booking.index');
+        }
         $validate = $request->validate([
             'booking_code' => 'required|unique:bookings',
             'order_date' => 'required',
@@ -97,39 +128,45 @@ class BookingController extends Controller
             'employees_id' => 'required',
             'type' => 'required',
             'amount' => 'required|integer'
-        ]);
-       
+            ]);
+        if($request->type == "dp" && $request->amount >= $dp || $request->type == "repayment" && $request->amount == $request->price){
+            $insert_booking = Booking::create([
+                'booking_code' => $request->booking_code,
+                'order_date' => $request->order_date,
+                'duration' => $request->duration,
+                'return_date_supposed' => $request->return_date_supposed,
+                'price' => $request->price,
+                'status' => 'process',
+                'employees_id' => $request->employees_id,
+                'car_id' => $request->car_id,
+                'client_id' => $request->client_id,
+            ]);
+
+            //insert to payment
+            $insert_payment = Returns::create([
+                'type' => $request->type,
+                'amount' => $request->amount,
+                'date' => date('Y-m-d'),
+                'client_id' => $request->client_id,
+                'employees_id' => $request->employees_id,
+                'booking_code' => $request->booking_code
+            ]);
+
+            //update car status to not available (0)
+            $car = Car::find($request->car_id);
+            $car->available = '0';
+            $car->save();
+
+            $request->session()->flash('success', 'Add Transaction success!');
+            return redirect()->route('booking.index');
+        }else{
+            $request->session()->flash('danger', 'Add Transaction failed!');
+            return redirect()->route('booking.index');
+        }
+
 
 
         //insert to table booking first
-        $insert_booking = Booking::create([
-            'booking_code' => $request->booking_code,
-            'order_date' => $request->order_date,
-            'duration' => $request->duration,
-            'return_date_supposed' => $request->return_date_supposed,
-            'price' => $request->price,
-            'status' => 'process',
-            'employees_id' => $request->employees_id,
-            'car_id' => $request->car_id,
-            'client_id' => $request->client_id,
-        ]);
 
-        //insert to payment
-        $insert_payment = Returns::create([
-            'type' => $request->type,
-            'amount' => $request->amount,
-            'date' => date('Y-m-d'),
-            'client_id' => $request->client_id,
-            'employees_id' => $request->employees_id,
-            'booking_code' => $request->booking_code
-        ]);
-
-        //update car status to not available (0)
-        $car = Car::find($request->car_id);
-        $car->available = '0';
-        $car->save();
-
-        $request->session()->flash('success', 'Add Transaction success!');
-        return redirect()->route('booking.index');
     }
 }

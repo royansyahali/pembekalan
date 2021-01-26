@@ -15,7 +15,7 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('payment_id');
-            $table->enum('type', ['dp', 'repayment']);
+            $table->enum('type', ['dp', 'lunas']);
             $table->integer('amount');
             $table->date('date');
             $table->integer('client_id');

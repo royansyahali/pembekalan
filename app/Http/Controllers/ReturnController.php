@@ -9,6 +9,7 @@ use App\Booking;
 use App\Client;
 use App\Car;
 use DateTime;
+use PDF;
 
 class ReturnController extends Controller
 {
@@ -26,17 +27,17 @@ class ReturnController extends Controller
     	if($booking_code == ''){
     		$request->session()->flash('warning', 'Select data rental from table below');
         	return redirect()->route('returns.index');
-    	} 
+    	}
 
     	$booking_table = Booking::where('booking_code', $booking_code)->first();
     	//jika booking code tidak ditemukan
     	if($booking_table->count() == 0){
     		$request->session()->flash('warning', 'Data rental not found!');
         	return redirect()->route('returns.index');
-    	} 
+    	}
 
     	//denda (perhitungannya nambah 10% per harinya)
-    	if($booking_table->return_date_supposed <  date('Y-m-d')){	
+    	if($booking_table->return_date_supposed <  date('Y-m-d')){
     		$return_supposed = new DateTime($booking_table->return_date_supposed);
     		$return_now = new DateTime(date('Y-m-d'));
     		$selisih = $return_supposed->diff($return_now);
@@ -50,19 +51,56 @@ class ReturnController extends Controller
     		$data['late'] = null;
     	}
 
-    	
+
     	$data['payment'] = Returns::where('booking_code',$booking_code)->get()->first();
     	$data['data'] = $booking_table;
     	$data['client'] = Client::find($booking_table->client_id);
     	$data['car'] = Car::find($booking_table->car_id);
     	$data['total'] = $booking_table->price + $data['fine'] - $data['payment']->amount;
     	$data['title'] = 'Return Process';
-    	$data['menu'] = 6;
-
+        $data['menu'] = 6;
+        // dd($data);
     	return view('returns.information', $data);
     }
 
+    public function nota($kode){
+        $booking_code = $kode;
+
+    	$booking_table = Booking::where('booking_code', $booking_code)->first();
+
+    	//denda (perhitungannya nambah 10% per harinya)
+    	if($booking_table->return_date_supposed <  date('Y-m-d')){
+    		$return_supposed = new DateTime($booking_table->return_date_supposed);
+    		$return_now = new DateTime(date('Y-m-d'));
+    		$selisih = $return_supposed->diff($return_now);
+    		for($i=1; $i<=$selisih->days; $i++){
+    			$fine = ($booking_table->price * $i.'0')/100;
+    		}
+    		$data['fine'] = $fine;
+    		$data['late'] = $selisih->days;
+    	} else {
+    		$data['fine'] = null;
+    		$data['late'] = null;
+    	}
+
+
+    	$data['payment'] = Returns::where('booking_code',$booking_code)->get()->first();
+    	$data['data'] = $booking_table;
+    	$data['client'] = Client::find($booking_table->client_id);
+    	$data['car'] = Car::find($booking_table->car_id);
+    	$data['total'] = $booking_table->price + $data['fine'] - $data['payment']->amount;
+    	$data['title'] = 'Return Nota';
+        $data['menu'] = 6;
+
+    	//dd($request->toArray());
+        $pdf = PDF::loadView('returns.nota',$data);
+        // $request->session()->flash('success', 'Return Proccess successfully!');
+        return $pdf->download('laporan.pdf');
+        // return redirect()->route('returns.index');
+    }
+
     public function process(Request $request){
+
     	$validate = $request->validate([
     		'amount' => 'required|min:'.$request->total .'|numeric',
     		'booking_code' => 'required',

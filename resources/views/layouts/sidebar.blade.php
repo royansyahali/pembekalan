@@ -7,7 +7,7 @@
             alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">Sistem Rentcar</span>
+        <span class="brand-text font-weight-light">Sistem Rent</span>
     </a>
 
     <!-- Sidebar -->
@@ -27,6 +27,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
+                @if (Auth::user()->role == "pemilik" || Auth::user()->role == "kasir")
                 <li class="nav-item has-treeview menu-open">
                     <a href="#" class="nav-link ">
                         <i class="nav-icon fa fa-circle-o"></i>
@@ -48,12 +49,15 @@
                                 <p>Data Brands</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href=" {{ route('employee.index') }} " class="nav-link {{($menu==3 ? 'active' : '')}}">
-                                <i class="fa fa-user nav-icon"></i>
-                                <p>Data Employees</p>
-                            </a>
-                        </li>
+                        @if (Auth::user()->role == "pemilik")
+                            <li class="nav-item">
+                                <a href=" {{ route('employee.index') }} " class="nav-link {{($menu==3 ? 'active' : '')}}">
+                                    <i class="fa fa-user nav-icon"></i>
+                                    <p>Data Employees</p>
+                                </a>
+                            </li>
+                        @endif
+
                         <li class="nav-item">
                             <a href=" {{ route('client.index') }} " class="nav-link {{($menu==4 ? 'active' : '')}}">
                                 <i class="fa fa-users nav-icon"></i>
@@ -85,23 +89,35 @@
                             </li>
                         </ul>
                 </li>
+                @endif
+                @if (Auth::user()->role == "pemilik" || Auth::user()->role == "bendahara")
                 <li class="nav-item has-treeview menu-open">
-                        <a href="#" class="nav-link ">
-                            <i class="nav-icon fa fa-circle-o"></i>
-                            <p>
-                            REPORT
-                            <i class="right fa fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href=" {{ url('reports/transaction') }} " class="nav-link {{($menu==7 ? 'active' : '')}}">
-                                    <i class="fa fa-book nav-icon"></i>
-                                    <p>Transaction</p>
-                                </a>
-                            </li>
-                        </ul>
-                </li>
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fa fa-circle-o"></i>
+                        <p>
+                        REPORT
+                        <i class="right fa fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href=" {{ url('reports/transaction') }} " class="nav-link {{($menu==7 ? 'active' : '')}}">
+                                <i class="fa fa-book nav-icon"></i>
+                                <p>Transaction</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href=" {{ url('charts') }} " class="nav-link {{($menu==8 ? 'active' : '')}}">
+                                <i class="fa fa-bar-chart nav-icon"></i>
+                                <p>Grafik</p>
+                            </a>
+                        </li>
+                    </ul>
+                 </li>
+                @endif
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Brand;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class BrandController extends Controller
 {
@@ -42,7 +44,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'brand_name' => 'required'
+            'brand_name' => 'required|unique:brands,brand_name'
         ]);
 
         $insert = Brand::create($request->toArray());
@@ -53,7 +55,7 @@ class BrandController extends Controller
             $request->session()->flash('danger', 'Add brand failed!');
             return redirect()->route('brand.index');
         }
-        
+
     }
 
     /**
@@ -64,7 +66,7 @@ class BrandController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
@@ -90,19 +92,21 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate = $request->validate([
-            'brand_name' => 'required|max:30',
-        ]);
 
+        $rules = [
+            'brand_name' => 'required|max:30|'.Rule::unique('brands')->ignore($id,"brand_id"),
+        ];
+        $validator = Validator::make($request->all(),$rules);
+        if($validator->fails()){
+            $request->session()->flash('danger', 'Add brand failed!');
+            return redirect()->route('brand.index');
+        }
         $update = Brand::find($id)->update($request->toArray());
         if($update) {
             $request->session()->flash('success', 'Add brand success!');
             return redirect()->route('brand.index');
-        } else {
-            $request->session()->flash('danger', 'Add brand failed!');
-            return redirect()->route('brand.index');
         }
-        
+
     }
 
     /**

@@ -11,6 +11,7 @@
             <table class="table table-sm" id="myTable">
                 <thead>
                     <tr>
+
                         <th>No</th>
                         <th>Nik</th>
                         <th>Name</th>
@@ -33,9 +34,9 @@
                         <td>{{ $row['dob'] }}</td>
                         <td>{{ $row['phone'] }}</td>
                         <td>{{ $row['address'] }}</td>
-                        <td>{{ $row['gender'] }}</td>
+                        <td>{{ ucfirst($row['gender']) }}</td>
                         <td>{{ $create[0] }}</td>
-                        <td> 
+                        <td>
                             <a href="{{ route('client.edit',  ['id' => $row["client_id"]]) }}" class="btn btn-sm btn-warning"><i class="fa fa-cog"></i></a>
                             <a data-id="{{$row['client_id']}}" class="btn btn-sm btn-danger delete-btn"><i class="fa fa-trash"></i></a>
                         </td>
@@ -46,7 +47,7 @@
             </table>
         </div>
     </div>
-</section>                  
+</section>
 
 @endsection
 

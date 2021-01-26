@@ -70,7 +70,7 @@
         				<td> : </td>
         				@if($fine != null)
         				<td style="color:red">Rp. {{ number_format($fine) }} (Late {{$late}} Days)</td>
-        				@else 
+        				@else
         				<td>0</td>
         				@endif
                         <input type="hidden" name="fine" value="{{ $fine }}" required>
@@ -86,14 +86,16 @@
         				<td>Rp. {{ number_format($total) }}</td>
         			</tr>
                     <tr>
-                        <td colspan="3"><button href="#" data-toggle="modal" data-target="#paymentModal" type="button"> Process </button></td>
+                        <td colspan="3"><button href="#" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary" type="button"> Process </button></td>
+                        <td colspan="3"><a href="{{ route('nota', ['kode'=> $data['booking_code']])}}" class="btn btn-primary">NOTA</a></td>
+
                     </tr>
             	</table>
             </div>
             <!-- payment MODALS  -->
             @include('returns.form-payment')
         </form>
-    </div>	
+    </div>
 </div>
 
 @endsection
