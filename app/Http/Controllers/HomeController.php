@@ -32,7 +32,7 @@ class HomeController extends Controller
     {
         $title = "Dashboard";
         $menu = 0;
-        return view('home', compact('title', 'menu'));
+        return view('index', compact('title', 'menu'));
     }
 
     // public function downloadPDF($start,$end,$type)

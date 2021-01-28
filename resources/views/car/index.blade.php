@@ -6,7 +6,10 @@
     <div class="card card-secondary card-outline">
         <div class="card-header">
             <h3 class="card-title"><a href="{{ route('car.create') }}" class="btn btn-primary">Add New </a> </h3>
-            <p>Jumlah Tersedia: {{$jumlah}}</p>
+            <p>Total Mobil: {{$all}}</p>
+
+            <p>Mobil Tersedia: {{$jumlah}}</p>
+
         </div>
         <div class="card-body">
             <table class="table table-sm" id="myTable">
