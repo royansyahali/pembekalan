@@ -12,6 +12,7 @@
         <div class="card card-secondary card-outline">
             <div class="card-header">
                 <h3 class="card-title">Deskripsi Sistem Rent</h3>
+                <p>Sistem Rent merupakan Sistem Aplikasi untuk Manajemen Penyewaan Mobil</p>
             </div>
             <div class="card-body">
 

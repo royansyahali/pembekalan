@@ -12,7 +12,7 @@ class ReportController extends Controller
 {
     public function index(Request $request){
     	$data['menu'] = 7;
-    	$data['title'] = "Report Transcation";
+    	$data['title'] = "Riwayat Monitoring Data Center";
     	$data['no'] = 1;
 
     	if(!isset($_GET['type'])) {

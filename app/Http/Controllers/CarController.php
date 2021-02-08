@@ -22,16 +22,17 @@ class CarController extends Controller
     {
         $data['title'] = "Cars";
         $data['menu'] = 1;
-
         $cars = DB::table('cars')
-                        ->join('brands', 'cars.brand_id', '=', 'brands.brand_id')
-                        ->join('bookings', 'cars.car_id', '=', 'bookings.car_id')
-                        ->where('available',"1")
-                        ->get();
+        ->join('brands', 'cars.brand_id', '=', 'brands.brand_id')
+        ->where('available','1')
+        ->get();
+        // dd($cars);
+
 
         $data['cars'] = json_decode(json_encode($cars), true);
         $data['no'] = 1;
         $data["jumlah"] = count($cars);
+
         return view('car.index', $data);
     }
 
